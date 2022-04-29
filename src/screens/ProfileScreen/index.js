@@ -11,11 +11,11 @@ const Profile = () => {
   const [lat, setLat] = useState('0');
   const [lng, setLng] = useState('0');
 
-  const { sub } = useAuthContext();
+  const { sub, setDbUser } = useAuthContext();
 
-  const onSave = () => {
+  const onSave = async () => {
     try {
-      DataStore.save(
+      const user = await DataStore.save(
         new User({
           name,
           address,
@@ -24,6 +24,7 @@ const Profile = () => {
           sub,
         })
       );
+      setDbUser(user);
     } catch (e) {
       Alert.alert('Error', e.message);
     }
