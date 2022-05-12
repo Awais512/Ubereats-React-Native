@@ -13,6 +13,9 @@ const BasketContextProvider = ({ children }) => {
 
   const addDishToBasket = async (dish, quantity) => {
     let theBasket = basket || (await createNewBasket());
+    DataStore.save(
+      new BasketDish({ quantity, Dish: dish, basketID: theBasket.id })
+    );
   };
 
   useEffect(() => {
