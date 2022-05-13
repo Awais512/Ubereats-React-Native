@@ -1,21 +1,23 @@
-import { View, Text, StyleSheet, FlatList } from "react-native";
-import BasketDishItem from "../../components/BasketDishItem";
+import { View, Text, StyleSheet, FlatList } from 'react-native';
+import BasketDishItem from '../../components/BasketDishItem';
+import { useBasketContext } from '../../context/BasketContext';
+// import restaurants from "../../../assets/data/restaurants.json";
 
-import restaurants from "../../../assets/data/restaurants.json";
-
-const restaurant = restaurants[0];
+// const restaurant = restaurants[0];
 
 const Basket = () => {
+  const { restaurant, basketDishes } = useBasketContext();
+
   return (
     <View style={styles.page}>
-      <Text style={styles.name}>{restaurant.name}</Text>
+      <Text style={styles.name}>{restaurant?.name}</Text>
 
-      <Text style={{ fontWeight: "bold", marginTop: 20, fontSize: 19 }}>
+      <Text style={{ fontWeight: 'bold', marginTop: 20, fontSize: 19 }}>
         Your items
       </Text>
 
       <FlatList
-        data={restaurant.dishes}
+        data={basketDishes}
         renderItem={({ item }) => <BasketDishItem basketDish={item} />}
       />
 
@@ -31,26 +33,26 @@ const Basket = () => {
 const styles = StyleSheet.create({
   page: {
     flex: 1,
-    width: "100%",
+    width: '100%',
     paddingVertical: 40, // temp fix
     padding: 10,
   },
   name: {
     fontSize: 24,
-    fontWeight: "600",
+    fontWeight: '600',
     marginVertical: 10,
   },
   description: {
-    color: "gray",
+    color: 'gray',
   },
   separator: {
     height: 1,
-    backgroundColor: "lightgrey",
+    backgroundColor: 'lightgrey',
     marginVertical: 10,
   },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginVertical: 15,
     paddingHorizontal: 10,
   },
@@ -59,18 +61,18 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
   },
   button: {
-    backgroundColor: "black",
-    marginTop: "auto",
+    backgroundColor: 'black',
+    marginTop: 'auto',
     padding: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
   buttonText: {
-    color: "white",
-    fontWeight: "600",
+    color: 'white',
+    fontWeight: '600',
     fontSize: 18,
   },
   quantityContainer: {
-    backgroundColor: "lightgray",
+    backgroundColor: 'lightgray',
     paddingHorizontal: 5,
     paddingVertical: 2,
     marginRight: 10,
