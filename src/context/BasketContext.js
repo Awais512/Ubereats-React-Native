@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Auth, DataStore } from 'aws-amplify';
+import { DataStore } from 'aws-amplify';
 import { Basket, BasketDish } from '../models';
 import { useAuthContext } from './AuthContext';
 
@@ -11,6 +11,10 @@ const BasketContextProvider = ({ children }) => {
   const [restaurant, setRestaurant] = useState(null);
   const [basket, setBasket] = useState(null);
   const [basketDishes, setBasketDishes] = useState([]);
+  const totalPrice = basketDishes.reduce(
+    (sum, basketDish) => sum + basketDish.quantity * basketDish.Dish.price,
+    restaurant?.deliveryFee
+  );
 
   const addDishToBasket = async (dish, quantity) => {
     let theBasket = basket || (await createNewBasket());
@@ -48,6 +52,7 @@ const BasketContextProvider = ({ children }) => {
         restaurant,
         basket,
         basketDishes,
+        totalPrice,
       }}
     >
       {children}
