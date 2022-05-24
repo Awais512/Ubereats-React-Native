@@ -17,9 +17,20 @@ const DishDetailsScreen = () => {
   const [quantity, setQuantity] = useState(1);
   const navigation = useNavigation();
   const route = useRoute();
-  const id = route.params.id;
+  const id = route.params?.id;
 
   const { addDishToBasket } = useBasketContext();
+
+  useEffect(() => {
+    if (id) {
+      DataStore.query(Dish, id).then(setDish);
+    }
+  }, [id]);
+
+  const onAddToBasket = async () => {
+    await addDishToBasket(dish, quantity);
+    navigation.goBack();
+  };
 
   const onMinus = () => {
     if (quantity > 1) {
@@ -35,19 +46,8 @@ const DishDetailsScreen = () => {
     return (dish.price * quantity).toFixed(2);
   };
 
-  const onAddToBasket = async () => {
-    await addDishToBasket(dish, quantity);
-    navigation.goBack();
-  };
-
-  useEffect(() => {
-    if (id) {
-      DataStore.query(Dish, id).then(setDish);
-    }
-  }, [id]);
-
   if (!dish) {
-    return <ActivityIndicator color='gray' size='large' />;
+    return <ActivityIndicator size='large' color='gray' />;
   }
 
   return (
